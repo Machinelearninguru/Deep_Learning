@@ -77,7 +77,7 @@ Now by using the ``virtualenv`` command, the virtual environment can be created:
 
 .. code:: bash
 
-    virtualenv --system-site-packages ~/virtualenvs/tensorflow
+    sudo virtualenv --system-site-packages ~/virtualenvs/tensorflow
 
 **Environment Activation**
 
