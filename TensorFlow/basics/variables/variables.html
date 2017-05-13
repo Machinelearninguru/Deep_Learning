@@ -1,0 +1,358 @@
+<html>
+
+<link href="../../../../syntaxhighlighter_3.0.83/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../../../syntaxhighlighter_3.0.83/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<link href="../../../../assets/css/shell.css" rel="stylesheet" type="text/css" />
+<link href="../../../../assets/css/table.css" rel="stylesheet" type="text/css" />
+
+
+<head>
+
+
+    <link rel="icon" type="image/png" href="../../../../_images/logo1.png">
+    <title>Train a Convolutional Neural Network as a Classifier</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../../assets/Resources/elighterjs/Resources/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../assets/css/main.css" />
+    <link rel="stylesheet" href="../../../../assets/css/figure_style.css" />
+    <link rel="stylesheet" href="../../../../assets/css/text_style.css" />
+    <!-- Favicon !-->
+    <link rel="stylesheet" type="text/css" href="../../../../assets/Resources/elighterjs/Build/EnlighterJS.min.css" />
+    <style>
+        .EnlighterJS {
+            width: auto !important;
+            overflow-x: scroll !important;
+            word-wrap: normal !important;
+        }
+        
+        .EnlighterJS li {
+            white-space: pre !important;
+        }
+    </style>
+    <script type="text/javascript" src="../../../../assets/Resources/elighterjs/Resources/MooTools.min.js"></script>
+    <script type="text/javascript" src="../../../../assets/Resources/elighterjs/Build/EnlighterJS.min.js"></script>
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} }); </script>
+    <script type="text/javascript">
+        window.addEvent('domready', function() {
+            EnlighterJS.Util.Helper(document.getElements('#pycode pre'), {
+                indent: 4,
+                language: 'python',
+                renderer: 'Block',
+                grouping: true,
+                theme: 'Beyond',
+                showLinenumbers: true
+            });
+            EnlighterJS.Util.Helper(document.getElements('#pycode code.ih'), {
+                renderer: 'Inline',
+                language: 'python',
+                theme: 'Beyond'
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <div id="header">
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li><a href="../../../../index.php">Home</a></li>
+                    <li><a href="#">></a></li>
+                    <li><a href="../../../../topics.php?my_id=4">Deep Learning</a></li>
+                    <li><a href="#">></a></li>
+                    <li><a href="../../../../posts.php?my_id=10">TensorFlow</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <!-- Main -->
+        <section class="wrapper style1">
+            <div class="container">
+                <div class="row">
+                    <div class="4u 12u(narrower)">
+                        <div id="sidebar">
+                            <section>
+                                <h3><img src="../../../../_images/logo2.png" style="width:64px;height:64px;vertical-align: middle;" alt="" />&emsp;<a id="logo" style="vertical-align: middle;" href="../../../../../index.html">Machine Learning Guru</a></h3>
+                                <p>Machine Learning and Computer Vision tutorials using open source packages.</p>
+                            </section>
+                            <section>
+                                <h3>Sections</h3>
+                                <ul class="links">
+                                    <li><a href="#Introduction">Introduction</a></li>
+                                    <li><a href="#Creating Variables">Creating Variables</a></li>
+                                    <li><a href="#Initialization">Initialization</a></li>
+                                    <li><a href="#Running the session">Running the session</a></li>
+                                    <li><a href="#Summary">Summary</a></li>
+                                    
+
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="8u  12u(narrower) important(narrower)">
+                        <div id="content">
+                            <!--    #######################             -->
+                            <!--    #######################             -->
+                            <!--    Content: Your post starts here      -->
+                            <!--    #######################             -->
+                            <!--    #######################             -->
+                            <article id="post_top">
+
+                                <header align="center">
+                                    <h2>Introduction to TensorFlow Variables: Creation, Initialization</h2>
+                                    <p>This tutorial deals with defining and initializing TensorFlow variables.</p>
+                                </header>
+                                
+                                <h2 id="Introduction">Introduction</h2>
+                                <p align="justify">Definign <code>variables</code> is necessary because the hold the parameter. Without having parameters, training, updating, saving, restoring and any other operations cannot be performed. The defined variables in TensorFlow are just tensors with certain shapes and types. The tensors must be initialized with values to become valid. In this tutorial, we are going to explain how to <code>define</code> and <code>initialize</code> variables. </p>
+                                
+                                <h2 id="Creating Variables">Creating variables</h2>
+                                
+                                <p align="justify">For variable generation, the class of <span class="inner_shadow">tf.Variable()</span> will be used. When we define a variable, we basically pass a <code>tensor</code> and its <code>value</code> to the graph. Basically the following will happen:</p>
+                                
+                                <blockquote>
+                                    <ul>
+                                        <li>A <code>variable</code> tensor that holds a value will be pass to the graph.</li>
+                                        <li>By using <span class="inner_shadow">tf.assign</span>, an initializer set initial variable value.</li>
+                                    </ul>
+                                </blockquote>
+                                
+                                <p align="justify"> Some arbirtray variables can be defined as follows:</p>
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Defining Variables</div>
+                                    <div class="panel-body" id="pycode">
+
+
+                                        <pre>
+ 
+import tensorflow as tf
+from tensorflow.python.framework import ops
+
+#######################################
+######## Defining Variables ###########
+#######################################
+
+# Create three variables with some default values.
+weights = tf.Variable(tf.random_normal([2, 3], stddev=0.1),
+                      name="weights")
+biases = tf.Variable(tf.zeros([3]), name="biases")
+custom_variable = tf.Variable(tf.zeros([3]), name="custom")
+
+# Get all the variables' tensors and store them in a list.
+all_variables_list = ops.get_collection(ops.GraphKeys.GLOBAL_VARIABLES)
+
+</pre>
+
+                                    </div>
+                                </div>
+                                
+                                <p align="justify"> In the above script, <b>line 15</b> gets the list of all defined variables from the defined graph. The <span class="inner_shadow">"name"</span> key, define a specific name for each variable on the graph</p>
+                                
+                                
+                                <h2 id="Initialization">Initialization</h2>
+                                
+                                <p align="justify"><code>Initializers</code> of the variables must be run before all other operations in the model. For an analogy, we can consider the starter of the car. Instead of running an initializer, variables can be <code>restored</code> too from saved models such as a checkpoint file. Variables can be initialized globally, specifically, or from other variables. We investigate different choices in the subsequent sections.</p>
+                                
+                                <h3 id="Initializing Specific Variable">Initializing Specific Variables</h3>
+                                
+                                <p align="justify">By using <span class="inner_shadow">tf.variables_initializer</span>, we can explicitly command the TensorFlow to only initialize cetain variable. The script is as follows</p>:
+                                    
+                                    <div class="panel panel-default">
+                                    <div class="panel-heading">Custom variable initialization</div>
+                                    <div class="panel-body" id="pycode">
+
+
+                                        <pre>
+ 
+# "variable_list_custom" is the list of variables that we want to initialize.
+variable_list_custom = [weights, custom_variable]
+
+# The initializer
+init_custom_op = tf.variables_initializer(var_list=all_variables_list)
+
+</pre>
+
+                                    </div>
+                                </div>
+                                
+                                <p align="justify"> Noted that custom initialization does not mean that we don't need to initialize other variables! All variables that some operations will be done upon them over the graph, must be initialized or restored from saved variables. This only let's us to realize how we can initialize specific variables by hand.</p>
+                                
+                                <h3 id="Golobal Variable Initialization">Golobal variable initialization</h3>
+                                
+                                <p align="justify">All variables can be initializaed at once using the <span class="inner_shadow">tf.global_variables_initializer()</span>. This op must be run after the model being fully constructed. The script is as below:</p>
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Global Variable Initialization</div>
+                                    <div class="panel-body" id="pycode">
+
+
+                                        <pre>
+ 
+# Method-1
+# Add an op to initialize the variables.
+init_all_op = tf.global_variables_initializer()
+
+# Method-2
+init_all_op = tf.variables_initializer(var_list=all_variables_list)
+
+</pre>
+
+                                    </div>
+                                </div>
+                                
+                                <p align="justify"> Both the above methods are identical. We only provide the second one to demonstrate that the <code>tf.global_variables_initializer()</code> is nothing but <code>tf.variables_initializer</code> when you yield all the variables as the its input argument.</p>
+                                
+                                <h3 id="Initilizationusingothers">Initilization of a variables using other existing variables</h3>
+                                
+                                <p align="justify">New variables can be initialized using other existing variables' initial values by taking the values using <span class="inner_shadow">initialized_value()</span>.</p>
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Initialization using predefined variables' values</div>
+                                    <div class="panel-body" id="pycode">
+
+
+                                        <pre>
+ 
+# Create another variable with the same value as 'weights'.
+WeightsNew = tf.Variable(weights.initialized_value(), name="WeightsNew")
+
+# Now, the variable must be initialized.
+init_WeightsNew_op = tf.variables_initializer(var_list=[WeightsNew])
+
+</pre>
+
+                                    </div>
+                                </div>
+                                
+                                <p align="justify"> As it can be seen from the above script, the <code>WeightsNew</code> variable is initialized with the values of the <code>weights</code> predefined value.</p>
+                                
+                                <h2 id="Running the session">Running the session</h2>
+                                
+                                <p align="justify"> All we did so far was to define the initilizers' ops and put them on the graph. In order to truly initialize variables, the defined initializers' ops must be run in the session. The script is as follows:</p>
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Running the session for initialization</div>
+                                    <div class="panel-body" id="pycode">
+
+
+                                        <pre>
+ 
+with tf.Session() as sess:
+    # Run the initializer operation.
+    sess.run(init_all_op)
+    sess.run(init_custom_op)
+    sess.run(init_WeightsNew_op)
+
+</pre>
+
+                                    </div>
+                                </div>
+                                
+                                <p align="justify">Each of the initializers has been run separated using a session.</p>
+                                
+                                
+                                <h2 id="Summary">Summary</h2>
+                                
+                                <p align="justify">In this tutorial, we walked through the variable creation and initialization. The global, custom and inherited variable initialization have been invesitgated. In the future posts, we investigate how to save and restore the variables. Restoring a variable eliminate the necessity of its initialization.</p>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+
+                                
+
+
+
+
+
+
+               
+
+                            </article> <a href="#post_top">Go Top</a>
+                            <!--    #######################  ####################### ####################### #######################            -->
+                            <!--    #######################  ####################### ####################### #######################            -->
+                            <!--    #######################  ####################### ####################### #######################            -->
+                            <!--    #######################  ####################### ####################### #######################            -->
+                            <!--    #######################             -->
+                            <!--             Comments                   -->
+                            <div id="disqus_thread"></div>
+                            <script>
+                                (function() { // DON'T EDIT BELOW THIS LINE
+                                    var d = document,
+                                        s = d.createElement('script');
+                                    s.src = '//machine-learning-guru.disqus.com/embed.js';
+                                    s.setAttribute('data-timestamp', +new Date());
+                                    (d.head || d.body).appendChild(s);
+                                })();
+                            </script>
+                            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <div id="footer">
+            <div class="container">
+                <div class="row">
+                    <section class="3u 6u(narrower) 12u$(mobilep)">
+                        <h3>Related Posts:</h3>
+                        <!-- <ul class="links">
+                            <li><a href="#">Mattis et quis rutrum</a></li>
+                            <li><a href="#">Suspendisse amet varius</a></li>
+                            <li><a href="#">Sed et dapibus quis</a></li>
+                        </ul>
+                    </section>
+                    <section class="3u 6u$(narrower) 12u$(mobilep)">
+                        <h3>More Links to Stuff</h3>
+                        <ul class="links">
+                            <li><a href="#">Duis neque nisi dapibus</a></li>
+                            <li><a href="#">Sed et dapibus quis</a></li>
+                            <li><a href="#">Rutrum accumsan sed</a></li>
+                        </ul>
+                    </section>-->
+                </div>
+            </div>
+            <!-- Icons -->
+            <ul class="icons">
+                <li><a href="https://twitter.com/M_L_Guru" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="https://github.com/Machinelearninguru" class="icon fa-github"><span class="label">GitHub</span></a></li>
+                <li><a href="https://www.linkedin.com/groups/12030461" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+            </ul>
+            <!-- Copyright -->
+            <div class="copyright">
+                <ul class="menu">
+                    <li>&copy; Machine Learning Guru. All rights reserved</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <!-- Scripts -->
+    <script src="../../../assets/js/jquery.min.js"></script>
+    <script src="../../../assets/js/jquery.dropotron.min.js"></script>
+    <script src="../../../assets/js/skel.min.js"></script>
+    <script src="../../../assets/js/util.js"></script>
+    <script src="../../../assets/js/main.js"></script>
+    <script id="dsq-count-scr" src="//machine-learning-guru.disqus.com/count.js" async></script>
+</body>
+
+</html>

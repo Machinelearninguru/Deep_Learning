@@ -1,0 +1,495 @@
+<html>
+
+<link href="../../../syntaxhighlighter_3.0.83/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../../syntaxhighlighter_3.0.83/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<link href="../../../assets/css/shell.css" rel="stylesheet" type="text/css" />
+<link href="../../../assets/css/table.css" rel="stylesheet" type="text/css" />
+
+
+<head>
+
+
+    <link rel="icon" type="image/png" href="../../../../_images/logo1.png">
+    <title>TensorFlow Installation from the Source</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../assets/Resources/elighterjs/Resources/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/css/main.css" />
+    <link rel="stylesheet" href="../../../assets/css/figure_style.css" />
+    <link rel="stylesheet" href="../../../assets/css/text_style.css" />
+    <!-- Favicon !-->
+    <link rel="stylesheet" type="text/css" href="../../../assets/Resources/elighterjs/Build/EnlighterJS.min.css" />
+    <style>
+        .EnlighterJS {
+            width: auto !important;
+            overflow-x: scroll !important;
+            word-wrap: normal !important;
+        }
+        
+        .EnlighterJS li {
+            white-space: pre !important;
+        }
+    </style>
+    <script type="text/javascript" src="../../../assets/Resources/elighterjs/Resources/MooTools.min.js"></script>
+    <script type="text/javascript" src="../../../assets/Resources/elighterjs/Build/EnlighterJS.min.js"></script>
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} }); </script>
+    <script type="text/javascript">
+        window.addEvent('domready', function() {
+            EnlighterJS.Util.Helper(document.getElements('#python pre'), {
+                indent: 4,
+                language: 'Python',
+                renderer: 'Block',
+                grouping: true,
+                theme: 'Beyond',
+                showLinenumbers: true
+            });
+            EnlighterJS.Util.Helper(document.getElements('#bash pre'), {
+                indent: 4,
+                language: 'Bash',
+                renderer: 'Block',
+                grouping: true,
+                theme: 'Beyond',
+                showLinenumbers: false
+            });
+            EnlighterJS.Util.Helper(document.getElements('#pycode code.ih'), {
+                renderer: 'Inline',
+                language: 'bash',
+                theme: 'Beyond'
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <div id="header">
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li><a href="../../../index.php">Home</a></li>
+                    <li><a href="#">></a></li>
+                    <li><a href="../../../topics.php?my_id=4">Deep Learning</a></li>
+                    <li><a href="#">></a></li>
+                    <li><a href="../../../posts.php?my_id=10">TensorFlow</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <!-- Main -->
+        <section class="wrapper style1">
+            <div class="container">
+                <div class="row">
+                    <div class="4u 12u(narrower)">
+                        <div id="sidebar">
+                            <section>
+                                <h3><img src="../../../_images/logo2.png" style="width:64px;height:64px;vertical-align: middle;" alt="" />&emsp;<a id="logo" style="vertical-align: middle;" href="../../../../index.html">Machine Learning Guru</a></h3>
+                                <p>Machine Learning and Computer Vision tutorials using open source packages.</p>
+                            </section>
+                            <section>
+                                <h3>Sections</h3>
+                                <ul class="links">
+                                    <li><a href="#Introduction">Introduction</a></li>
+                                    <li><a href="#prepare-the-environment">Prepare the environment</a></li>
+                                    <li><a href="#configuration-of-the-installation">Configuration of the Installation</a></li>
+                                    <li><a href="#Build the .whl Package">Build the .whl Package</a></li>
+                                    <li><a href="#validate-the-installation">Validate the Installation</a></li>
+                                    <li><a href="#common-errors">Common Errors</a></li>
+                                    <li><a href="#Summary">Summary</a></li>
+                                    
+                                
+
+
+
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="8u  12u(narrower) important(narrower)">
+                        <div id="content">
+                            <!--    #######################             -->
+                            <!--    #######################             -->
+                            <!--    Content: Your post starts here      -->
+                            <!--    #######################             -->
+                            <!--    #######################             -->
+                            <article id="post_top">
+
+                                <header align="center">
+                                    <h2>TensorFlow Installation from the Source</h2>
+                                    <p>This tutorial deals with installing the TensorFlow deep learning framework from the source.</p>
+                                </header>
+
+                                <h2 id="Introduction">Introduction</h2>
+                                <p align="justify">The installation is available at <a href="https://www.tensorflow.org/install/">TensorFlow</a>. Installation from the source is recommended because the user can build the desired TensorFlow binary for the specific architecture. It enriches the TensoFlow with a better system compatibility and it will run much faster. Installing from the source is available at <a href="https://www.tensorflow.org/install/install_sources">Installing TensorFlow from Sources</a> link. The official TensorFlow explanations are concise and to the point, however few things might become important as we go through the installation. We try to project the step by step to avoid any confusion. The following sections must be considered in the written order.</p>
+                                <p align="justify">The assumption is that installing TensorFlow in the <code>Ubuntu</code> using <code>GPU support</code> is desired. <code>Python2.x</code> is chosen for installation. The <code>Python3.x</code> installation is very simple using the following thread in this tutorial.</p>
+                                <h2 id="prepare-the-environment">Prepare the environment</h2>
+                                <p>The following should be done in order:</p>
+                                <blockquote>
+                                    <ul>
+                                        <li>TensorFlow Python dependencies installation</li>
+                                        <li>Bazel installation</li>
+                                        <li>TensorFlow GPU prerequisites setup</li>
+                                    </ul>
+                                </blockquote>
+                                <h3 id="tensorflow-python-dependencies-installation">TensorFlow Python Dependencies Installation</h3>
+                                <p align="justify">For installation of the required dependencies, the following command must be executed in the terminal:</p>
+
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>sudo apt-get install python-numpy python-dev python-pip python-wheel python-virtualenv</li>
+                                        <li>sudo apt-get install python3-numpy python3-dev python3-pip python3-wheel python3-virtualenv</li>
+                                    </ul>
+                                </div>
+                                <!--
+                                <div class="sourceCode">
+                                    <pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> apt-get install python-numpy python-dev python-pip python-wheel python-virtualenv
+<span class="fu">sudo</span> apt-get install python3-numpy python3-dev python3-pip python3-wheel python3-virtualenv</code></pre>
+                                </div>
+-->
+
+                                <p>The second line is for <code>python3</code> instalaltion.</p>
+                                <h3 id="bazel-installation">Bazel Installation</h3>
+                                <p>Please refer to <a href="https://bazel.build/versions/master/docs/install-ubuntu.html">Bazel Installation</a>.</p>
+                                <p align="justify"><code>WARNING:</code> The Bazel installation may change the supported kernel by the GPU! After that you may need to refresh your GPU installation or update it other wise you may get the following error when evaluating the TensorFlow installation:</p>
+
+                                <p><span class="inner_shadow">kernel version X does not match DSO version Y -- cannot find working devices in this configuration</span></p>
+
+                                <p align="justify">For solving that error you may need to purge all NVIDIA drivers and install or update them again. Please refer to <a href="https://github.com/astorfi/CUDA-Installation">CUDA Installation</a> for further detail.</p>
+                                <h3 id="tensorflow-gpu-prerequisites-setup">TensorFlow GPU Prerequisites Setup</h3>
+                                <p>The following requirements must be satisfied:</p>
+                                <blockquote>
+                                    <ul>
+                                        <li>NVIDIA's Cuda Toolkit and its associated drivers(version 8.0 is recommended). The installation is explained at <a href="https://github.com/astorfi/CUDA-Installation">CUDA Installation</a>.</li>
+                                        <li>The cuDNN library(version 5.1 is recommended). Please refer to <a href="https://github.com/astorfi/CUDA-Installation">NIDIA documentation</a> for further details.</li>
+                                        <li>Installing the <code>libcupti-dev</code> using the following command: <code>sudo apt-get install libcupti-dev</code></li>
+                                    </ul>
+                                </blockquote>
+                                <h3 id="creating-a-virtual-environment-optional">Creating a Virtual Environment (Optional)</h3>
+                                <p align="justify">Assume the installation of TensorFlow in a <code>python virtual environment</code> is desired. First we need to create a directory to contain all the environments. It can be done by executing the following in the terminal:</p>
+
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>sudo mkdir ~/virtualenvs</li>
+                                    </ul>
+                                </div>
+
+
+                                <p>Now by using the <code>virtualenv</code> command, the virtual environment can be created:</p>
+
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>sudo virtualenv --system-site-packages ~/virtualenvs/tensorflow</li>
+                                    </ul>
+                                </div>
+
+                                <p><strong>Environment Activation</strong></p>
+                                <p align="justify">Up to now, the virtual environment named <em>tensorflow</em> has been created. For environment activation, the following must be done:</p>
+
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>source ~/virtualenvs/tensorflow/bin/activate</li>
+                                    </ul>
+                                </div>
+
+
+                                <p>However the command is too verbose!</p>
+                                <p><strong>Alias</strong></p>
+                                <p align="justify">The solution is to use an alias to make life easy! Let's execute the following command:</p>
+
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>echo 'alias tensorflow="source $HOME/virtualenvs/tensorflow/bin/activate"' >> ~/.bash_aliases</li>
+                                        <li>bash</li>
+                                    </ul>
+                                </div>
+
+
+                                <p align="justify">After running the previous command, please close and open terminal again. Now by running the following simple script, the tensorflow environment will be activated.</p>
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>tensorflow</li>
+                                    </ul>
+                                </div>
+
+                                <p><strong>check the <code>~/.bash_aliases</code></strong></p>
+
+                                <p align="justify">To double-check let's check the <code>~/.bash_aliases</code> from the terminal using the <code>sudo gedit ~/.bash_aliases</code> command. The file should contain the following script:</p>
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>alias tensorflow="source $HO~/virtualenvs/tensorflow/bin/activate" </li>
+                                    </ul>
+                                </div>
+
+                                <p><strong>check the <code>.bashrc</code></strong></p>
+                                <p align="justify">Also let's check the <code>.bashrc</code> shell script using the <code>sudo gedit ~/.bashrc</code> command. It should contain the following:</p>
+
+                                <pre class="sourceCode shell"><code>if [ -f ~/.bash_aliases ]; then
+. ~/.bash_aliases
+fi</code></pre>
+                                <h2 id="configuration-of-the-installation">Configuration of the Installation</h2>
+                                <p align="justify">After preparing the environment, the installation must be configured. The <code>flags</code> of the configuration are of great importance because they determine how well and compatible the TensorFlow will be installed!! At first we have to go to the TensorFlow root:</p>
+
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>cd tensorflow </li>
+                                    </ul>
+                                </div>
+
+                                <p align="justify">The flags alongside with the configuration environment are demonstrated below:</p>
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>./configure</li>
+                                        <out><br>Please specify the location of python. [Default is /usr/bin/python]: /usr/bin/python2.7
+                                            <br>Please specify optimization flags to use during compilation when bazel option "--config=opt" is specified [Default is -march=native]:
+                                            <br>Do you wish to use jemalloc as the malloc implementation? [Y/n] Y
+                                            <br>jemalloc enabled
+                                            <br>Do you wish to build TensorFlow with Google Cloud Platform support? [y/N] N
+                                            <br>No Google Cloud Platform support will be enabled for TensorFlow
+                                            <br>Do you wish to build TensorFlow with Hadoop File System support? [y/N] N
+                                            <br>No Hadoop File System support will be enabled for TensorFlow
+                                            <br>Do you wish to build TensorFlow with the XLA just-in-time compiler (experimental)? [y/N] N
+                                            <br>No XLA JIT support will be enabled for TensorFlow
+                                            <br>Found possible Python library paths:
+                                            <br> /usr/local/lib/python2.7/dist-packages
+                                            <br> /usr/lib/python2.7/dist-packages
+                                            <br>Please input the desired Python library path to use. Default is [/usr/local/lib/python2.7/dist-packages]
+                                            <br>Using python library path: /usr/local/lib/python2.7/dist-packages
+                                            <br>Do you wish to build TensorFlow with OpenCL support? [y/N] N
+                                            <br>No OpenCL support will be enabled for TensorFlow
+                                            <br>Do you wish to build TensorFlow with CUDA support? [y/N] Y
+                                            <br>CUDA support will be enabled for TensorFlow
+                                            <br>Please specify which gcc should be used by nvcc as the host compiler. [Default is /usr/bin/gcc]:
+                                            <br>Please specify the Cuda SDK version you want to use, e.g. 7.0. [Leave empty to use system default]: 8.0
+                                            <br>Please specify the location where CUDA 8.0 toolkit is installed. Refer to README.md for more details. [Default is /usr/local/cuda]:
+                                            <br>Please specify the cuDNN version you want to use. [Leave empty to use system default]: 5.1.10
+                                            <br>Please specify the location where cuDNN 5 library is installed. Refer to README.md for more details. [Default is /usr/local/cuda]:
+                                            <br>Please specify a list of comma-separated Cuda compute capabilities you want to build with.
+                                            <br>You can find the compute capability of your device at: https://developer.nvidia.com/cuda-gpus.
+                                            <br>Please note that each additional compute capability significantly increases your build time and binary size.
+                                            <br>[Default is: "3.5,5.2"]: "5.2"</out>
+                                    </ul>
+                                </div>
+
+                                <dl>
+                                    <dt><strong>NOTE:</strong></dt>
+                                    <blockquote>
+                                    <dd>
+                                        <ul>
+                                            <li>* The CuDNN version must be exactly determined using the associated files in /usr/local/cuda</li>
+                                            <li> * The compute capability is specified related the <code>available GPU model</code> in the system architecture. For example <code>Geforce GTX Titan X</code> GPUs have compute capability of 5.2.</li>
+                                            <li>* Using <code>bazel clean</code> is recommended if re-configuration is needed.</li>
+                                        </ul>
+                                    </dd>
+                                        </blockquote>
+                                    <dt><strong>WARNING:</strong></dt>
+                                    <dd>
+                                        <ul>
+                                            <li>In case installation of the TensorFlow in a virtual environment is desired, the environment must be activated at first and before running the <code>./configure</code> script.</li>
+                                        </ul>
+                                    </dd>
+                                    
+                                </dl>
+                                <!--
+                                <h3 id="test-bazel-optional">Test Bazel (Optional)</h3>
+                                <p>We can run tests using <code>Bazel</code> to make sure everything's fine:</p>
+                                
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>cd tensorflow </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="sourceCode">
+                                    <pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./configure</span>
+<span class="ex">bazel</span> test ...</code></pre>
+                                </div>
+-->
+                                <h2 id="Build the .whl Package">Build the .whl Package</h2>
+                                <p align="justify">After configuration of the setup, the pip package needs to be built by the Bazel. To build a TensorFlow package with GPU support, execute the following command:</p>
+
+                                <div class="shell-wrap" style="width: 950px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package </li>
+                                    </ul>
+                                </div>
+                                <!--
+                                <div class="sourceCode">
+                                    <pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">bazel</span> build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package</code></pre>
+                                </div>
+-->
+                                <p>The <code>bazel build</code> command builds a script named build_pip_package. Running the following script build a .whl file within the ~/tensorflow_package directory:</p>
+
+                                <div class="shell-wrap" style="width: 950px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>bazel-bin/tensorflow/tools/pip_package/build_pip_package ~/tensorflow_package </li>
+                                    </ul>
+                                </div>
+                                <!--
+                                <div class="sourceCode">
+                                    <pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">bazel-bin/tensorflow/tools/pip_package/build_pip_package</span> ~/tensorflow_package</code></pre>
+                                </div>
+-->
+                                <h2 id="installation-of-the-pip-package">Installation of the Pip Package</h2>
+                                <p>Two types of installation can be used. The native installation using system root and the virtual environment installation.</p>
+                                <h3 id="native-installation">Native Installation</h3>
+                                <p>The following command will install the pip package created by Bazel build:</p>
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>sudo pip install ~/tensorflow_package/file_name.whl </li>
+                                    </ul>
+                                </div>
+
+                                The <span class="inner_shadow">file_name.whl</span> is specific to system configuration and may vary in different scenarios.
+                                <!--
+                                <div class="sourceCode">
+                                    <pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> pip install ~/tensorflow_package/file_name.whl</code></pre>
+                                </div>
+-->
+                                <h3 id="using-virtual-environments">Using Virtual Environments</h3>
+                                <p align="justify">At first, the environment must be activation. Since we already defined the environment alias as <code>tensorflow</code>, by the terminal execution of the simple command of <code>tensorflow</code>, the environment will be activated. Then like the previous part we execute the following:</p>
+                                <div class="shell-wrap" style="width: 800px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>pip install ~/tensorflow_package/file_name.whl </li>
+                                    </ul>
+                                </div>
+
+                                <dl>
+                                    <dt><strong>WARNING</strong>:</dt>
+                                    <blockquote>
+                                    <dd>
+                                        <ul>
+                                            <li>* By using the virtual environment installation method, the sudo command should not be used anymore because if we use sudo, it points to native system packages and not the one available in the virtual environment.</li>
+                                            <li>* Since <code>sudo mkdir ~/virtualenvs</code> is used for creating of the virtual environment, using the <code>pip install</code> returns <code>permission error</code>. In this case the permission level of the environment directory must be change using the <code>sudo chmod -R 777 ~/virtualenvs</code> command.</li>
+                                        </ul>
+                                    </dd>
+                                    </blockquote>
+                                </dl>
+                                <h2 id="validate-the-installation">Validate the Installation</h2>
+                                <p>In the terminal, the following script must be run (<code>in the home directory</code>) correctly without any error and preferablly any warning:</p>
+
+                                <div class="shell-wrap" style="width: 950px">
+                                    <p class="shell-top-bar">Search for Specific Files</p>
+                                    <ul class="shell-body">
+                                        <li>python</li>
+                                        <out><br>
+                                            import tensorflow as tf <br>
+                                            hello = tf.constant('Hello, TensorFlow!') <br>
+                                            sess = tf.Session() <br>
+                                            print(sess.run(hello))
+                                        </out>
+                                    </ul>
+                                </div>
+
+                                
+                                <h2 id="common-errors">Common Errors</h2>
+                                <p>Different errors reported to block the compiling and running TensorFlow.</p>
+                                <blockquote>
+                                    <ul>
+                                        <li><code>Mismatch between the supported kernel versions:</code> This error mentioned earlier in this documentation. The naive solution reported to be reinstallation of the CUDA driver.</li>
+                                        <li><code>ImportError: cannot import name pywrap_tensorflow:</code> This error usually occurs when the Python loads the tensorflow libraries from the wrong directory, i.e., not the version installed by the user in the root. The first step is to make sure we are in the system root such that the python libraries are utilized correctly. So basically we can open a new terminal and test TensorFlow installation again.</li>
+                                        <li><code>ImportError: No module named packaging.version":</code> Most likely it might be related to the pip installation. Reinstalling that using python -m pip install -U pip or sudo python -m pip install -U pip may fixed it!</li>
+                                    </ul>
+                                </blockquote>
+                                
+                                <h2 id="Summary">Summary</h2>
+                                
+                                <p> In this tutorial, we described how to install TensorFlow from the source which has the advantage of more compatibility with the system configuration. <code>Python virtual environment</code> installation has been investigated as well to separate the TensorFlow environment from other environments. <code> Conda </code> environments can be used as well as python virtual environments which was explained in <a href="http://machinelearninguru.com/computer_vision/installation/opencv/opencv.html">OpenCV installation</a> post. In any case, the TensorFlow installed from the source can be run much faster than the pre-build binary packages provided by the TensorFlow although it adds the complexity for installation.
+
+
+
+
+
+
+
+
+                            </article> <a href="#post_top">Go Top</a>
+                            <!--    #######################  ####################### ####################### #######################            -->
+                            <!--    #######################  ####################### ####################### #######################            -->
+                            <!--    #######################  ####################### ####################### #######################            -->
+                            <!--    #######################  ####################### ####################### #######################            -->
+                            <!--    #######################             -->
+                            <!--             Comments                   -->
+                            <div id="disqus_thread"></div>
+                            <script>
+                                (function() { // DON'T EDIT BELOW THIS LINE
+                                    var d = document,
+                                        s = d.createElement('script');
+                                    s.src = '//machine-learning-guru.disqus.com/embed.js';
+                                    s.setAttribute('data-timestamp', +new Date());
+                                    (d.head || d.body).appendChild(s);
+                                })();
+                            </script>
+                            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <div id="footer">
+            <div class="container">
+                <div class="row">
+                    <section class="3u 6u(narrower) 12u$(mobilep)">
+                        <h3>Related Posts:</h3>
+                        <!-- <ul class="links">
+                            <li><a href="#">Mattis et quis rutrum</a></li>
+                            <li><a href="#">Suspendisse amet varius</a></li>
+                            <li><a href="#">Sed et dapibus quis</a></li>
+                        </ul>
+                    </section>
+                    <section class="3u 6u$(narrower) 12u$(mobilep)">
+                        <h3>More Links to Stuff</h3>
+                        <ul class="links">
+                            <li><a href="#">Duis neque nisi dapibus</a></li>
+                            <li><a href="#">Sed et dapibus quis</a></li>
+                            <li><a href="#">Rutrum accumsan sed</a></li>
+                        </ul>
+                    </section>-->
+                </div>
+            </div>
+            <!-- Icons -->
+            <ul class="icons">
+                <li><a href="https://twitter.com/M_L_Guru" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="https://github.com/Machinelearninguru" class="icon fa-github"><span class="label">GitHub</span></a></li>
+                <li><a href="https://www.linkedin.com/groups/12030461" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+            </ul>
+            <!-- Copyright -->
+            <div class="copyright">
+                <ul class="menu">
+                    <li>&copy; Machine Learning Guru. All rights reserved</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <!-- Scripts -->
+    <script src="../../../assets/js/jquery.min.js"></script>
+    <script src="../../../assets/js/jquery.dropotron.min.js"></script>
+    <script src="../../../assets/js/skel.min.js"></script>
+    <script src="../../../assets/js/util.js"></script>
+    <script src="../../../assets/js/main.js"></script>
+    <script id="dsq-count-scr" src="//machine-learning-guru.disqus.com/count.js" async></script>
+</body>
+
+</html>
