@@ -2,7 +2,7 @@
 Variables
 ==========
 
-This source code is dedicated to define and initialize variables.
+This source code is dedicated to define and initialize variables. The source code belongs to the `Introduction to TensorFlow Variables: Creation, Initialization <http://www.machinelearninguru.com/deep_learning/tensorflow/basics/variables/variables.html>`__ psot.
 
    
 --------------------------------
